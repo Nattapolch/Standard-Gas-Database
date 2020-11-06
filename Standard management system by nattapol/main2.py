@@ -301,13 +301,13 @@ label_head.pack()
 
 ### Button in GUI ###
 button_Additem = Button(root, command = ShowAddNew, text = "Add new item", height = "3", width = "13" )
-button_Additem.place(x=50,y=150)
+button_Additem.place(x=200,y=150)
 
 button_viewlist = Button(root,command = ShowView, text = "View Parts List", height = "3", width = "13" )
-button_viewlist.place(x=200,y=150)
+button_viewlist.place(x=400,y=150)
 
 button_exit = Button(root, command = Exit, text = "Exit", height = "3", width = "13" )
-button_exit.place(x=350,y=150)
+button_exit.place(x=600,y=150)
 
 Database()
 root.mainloop()
