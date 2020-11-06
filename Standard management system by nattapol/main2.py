@@ -3,12 +3,15 @@ import tkinter.messagebox as tkMessageBox
 import sqlite3
 import tkinter.ttk as ttk
 
+
 def Database():
     global conn, cursor
     conn = sqlite3.connect("dbtest2.db")
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS `invendb-test2` (Parts_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Parts_Name TEXT,Parts_Manufacturer TEXT,Parts_Model TEXT,Parts_Price INTERGER,Parts_Qty INTERGER)")
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS `invendb-test2` (Parts_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Parts_Name TEXT,Parts_Manufacturer TEXT,Parts_Model TEXT,Parts_Price INTERGER,Parts_Qty INTERGER)")
     conn.commit()
+
 
 def ShowAddNew():
     global addnewform
@@ -16,6 +19,7 @@ def ShowAddNew():
     addnewform.title("Add New Part")
     addnewform.geometry("800x600")
     AddNewForm()
+
 
 def AddNewForm():
     TopAddNew = Frame(addnewform, width=600, height=100, bd=1, relief=SOLID)
@@ -28,17 +32,16 @@ def AddNewForm():
     label_partname.grid(row=0, sticky=W)
 
     label_partmanufacturer = Label(MidAddNew, text="Part Manufacturer:", font=('arial', 25), bd=10)
-    label_partmanufacturer.grid(row=1,sticky=W)
+    label_partmanufacturer.grid(row=1, sticky=W)
 
-    label_partmodel = Label(MidAddNew,text="Part Model:",font=('arial',25),bd=10)
-    label_partmodel.grid(row=2,sticky=W)
+    label_partmodel = Label(MidAddNew, text="Part Model:", font=('arial', 25), bd=10)
+    label_partmodel.grid(row=2, sticky=W)
 
     label_partprice = Label(MidAddNew, text="Part Price:", font=('arial', 25), bd=10)
     label_partprice.grid(row=3, sticky=W)
 
     label_partqty = Label(MidAddNew, text="Part Quantity:", font=('arial', 25), bd=10)
     label_partqty.grid(row=4, sticky=W)
-
 
     partname = Entry(MidAddNew, textvariable=Parts_Name, font=('arial', 25), width=15)
     partname.grid(row=0, column=1)
@@ -55,14 +58,16 @@ def AddNewForm():
     partqty = Entry(MidAddNew, textvariable=Parts_Qty, font=('arial', 25), width=15)
     partqty.grid(row=4, column=1)
 
-
     button_save = Button(MidAddNew, text="Save", font=('arial', 18), width=30, bg="#009ACD", command=AddNew)
     button_save.grid(row=6, columnspan=2, pady=20)
 
+
 def AddNew():
     Database()
-    cursor.execute("INSERT INTO `invendb-test2` (Parts_Name,Parts_Manufacturer,Parts_Model,Parts_Price,Parts_Qty) VALUES(?, ?, ?, ?, ?)",
-                   (str(Parts_Name.get()), str(Parts_Manufacturer.get()) ,str(Parts_Model.get()),int(Parts_Price.get()), int(Parts_Qty.get())))
+    cursor.execute(
+        "INSERT INTO `invendb-test2` (Parts_Name,Parts_Manufacturer,Parts_Model,Parts_Price,Parts_Qty) VALUES(?, ?, ?, ?, ?)",
+        (str(Parts_Name.get()), str(Parts_Manufacturer.get()), str(Parts_Model.get()), int(Parts_Price.get()),
+         int(Parts_Qty.get())))
     conn.commit()
     Parts_Name.set("")
     Parts_Manufacturer.set("")
@@ -72,11 +77,13 @@ def AddNew():
     cursor.close()
     conn.close()
 
+
 def Exit():
     ResultExit = tkMessageBox.askquestion('Simple Inventory System', 'Do you want to exit program?', icon="warning")
     if ResultExit == 'yes':
         root.destroy()
         exit()
+
 
 ################################ Test view ###########################################
 def ViewForm():
@@ -115,8 +122,10 @@ def ViewForm():
 
     scrollbar_x = Scrollbar(MidViewForm, orient=HORIZONTAL)
     scrollbar_y = Scrollbar(MidViewForm, orient=VERTICAL)
-    tree = ttk.Treeview(MidViewForm, columns=("Parts id","Parts Name", "Parts Manufacturer", "Parts Model","Product Price" ,"Product Quantity"),
-                        selectmode="extended", height=100, yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set)
+    tree = ttk.Treeview(MidViewForm, columns=(
+    "Parts id", "Parts Name", "Parts Manufacturer", "Parts Model", "Product Price", "Product Quantity"),
+                        selectmode="extended", height=100, yscrollcommand=scrollbar_y.set,
+                        xscrollcommand=scrollbar_x.set)
     scrollbar_y.config(command=tree.yview)
     scrollbar_y.pack(side=RIGHT, fill=Y)
     scrollbar_x.config(command=tree.xview)
@@ -128,7 +137,6 @@ def ViewForm():
     tree.heading('Parts Model', text="Parts Model", anchor=W)
     tree.heading('Product Price', text="Product Price", anchor=W)
     tree.heading('Product Quantity', text="Product Quantity", anchor=W)
-
 
     tree.column('#0', stretch=NO, minwidth=0, width=0)
     tree.column('#1', stretch=NO, minwidth=0, width=50)
@@ -148,6 +156,7 @@ def ShowEdit():
     editform.title("Edit data")
     editform.geometry("800x600")
     EditForm()
+
 
 def EditForm():
     global partname
@@ -179,13 +188,13 @@ def EditForm():
     partname = Entry(MidEdit, font=('arial', 25), width=15)
     partname.grid(row=0, column=1)
 
-    partnmanufacturer = Entry(MidEdit,font=('arial', 25), width=15)
+    partnmanufacturer = Entry(MidEdit, font=('arial', 25), width=15)
     partnmanufacturer.grid(row=1, column=1)
 
     partmodel = Entry(MidEdit, font=('arial', 25), width=15)
     partmodel.grid(row=2, column=1)
 
-    partprice = Entry(MidEdit,  font=('arial', 25), width=15)
+    partprice = Entry(MidEdit, font=('arial', 25), width=15)
     partprice.grid(row=3, column=1)
 
     partqty = Entry(MidEdit, font=('arial', 25), width=15)
@@ -195,33 +204,55 @@ def EditForm():
     button_save.grid(row=6, columnspan=2, pady=20)
     DisplayEditData()
 
+
 def DisplayEditData():
     Database()
     record_id = edit.get()
-    #cursor.execute("SELECT * FROM 'invendb-test2' WHERE oid = "  + record_id)
-    cursor.execute("SELECT * FROM 'invendb-test2' WHERE Parts_id = " + record_id)
+    cursor.execute("SELECT * FROM 'invendb-test2' WHERE oid = " + record_id)
+    # cursor.execute("SELECT * FROM 'invendb-test2' WHERE Parts_id = " + record_id)
 
     records = cursor.fetchall()
-    for data in records:
+    """for data in records:
         partname.delete(0,END)
         partnmanufacturer.delete(0,END)
         partmodel.delete(0,END)
         partprice.delete(0,END)
-        partqty.delete(0,END)
-
+        partqty.delete(0,END)"""
 
     for data in records:
-        partname.insert(0,data[1])
-        partnmanufacturer.insert(0,data[2])
-        partmodel.insert(0,data[3])
-        partprice.insert(0,data[4])
-        partqty.insert(0,data[5])
+        partname.insert(0, data[1])
+        partnmanufacturer.insert(0, data[2])
+        partmodel.insert(0, data[3])
+        partprice.insert(0, data[4])
+        partqty.insert(0, data[5])
 
     cursor.close()
     conn.close()
 
+
 def Edit():
-    pass;
+    Database()
+    record_id = edit.get()
+    cursor.execute("""UPDATE 'invendb-test2' SET
+    Parts_Name = :name,
+    Parts_Manufacturer = :manufacturer,
+    Parts_Model = :model,
+    Parts_Price = :price,
+    Parts_Qty = :qty
+
+    WHERE oid = :oid""",
+                   {
+                       'name': partname.get(),
+                       'manufacturer': partnmanufacturer.get(),
+                       'model': partmodel.get(),
+                       'price': partprice.get(),
+                       'qty': partqty.get(),
+                       'oid': record_id
+                   })
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 
 def DisplayData():
     Database()
@@ -263,7 +294,7 @@ def Delete():
             selecteditem = contents['values']
             tree.delete(curItem)
             Database()
-            cursor.execute("DELETE FROM `invendb-test2` WHERE `Parts_id` = %d" % selecteditem[0] )
+            cursor.execute("DELETE FROM `invendb-test2` WHERE `Parts_id` = %d" % selecteditem[0])
             conn.commit()
             cursor.close()
             conn.close()
@@ -293,21 +324,19 @@ Parts_Qty = IntVar()
 SEARCH = StringVar()
 EDIT = StringVar()
 
-
 ### Label ###
-label_head = Label(root, text="Consumable Parts Inventory System", font=('arial', 25), bg = "#ff9a8c")
+label_head = Label(root, text="Consumable Parts Inventory System", font=('arial', 25), bg="#ff9a8c")
 label_head.pack()
 
-
 ### Button in GUI ###
-button_Additem = Button(root, command = ShowAddNew, text = "Add new item", height = "3", width = "13" )
-button_Additem.place(x=200,y=150)
+button_Additem = Button(root, command=ShowAddNew, text="Add new item", height="3", width="13")
+button_Additem.place(x=200, y=150)
 
-button_viewlist = Button(root,command = ShowView, text = "View Parts List", height = "3", width = "13" )
-button_viewlist.place(x=400,y=150)
+button_viewlist = Button(root, command=ShowView, text="View Parts List", height="3", width="13")
+button_viewlist.place(x=400, y=150)
 
-button_exit = Button(root, command = Exit, text = "Exit", height = "3", width = "13" )
-button_exit.place(x=600,y=150)
+button_exit = Button(root, command=Exit, text="Exit", height="3", width="13")
+button_exit.place(x=600, y=150)
 
 Database()
 root.mainloop()
