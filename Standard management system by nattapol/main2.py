@@ -81,6 +81,7 @@ def Exit():
 ################################ Test view ###########################################
 def ViewForm():
     global tree
+    global edit
     TopViewForm = Frame(viewform, width=600, bd=1, relief=SOLID)
     TopViewForm.pack(side=TOP, fill=X)
     LeftViewForm = Frame(viewform, width=600)
@@ -90,18 +91,27 @@ def ViewForm():
 
     label_text = Label(TopViewForm, text="Consumable Parts List", font=('arial', 18), width=600)
     label_text.pack(fill=X)
-    label_search = Label(LeftViewForm, text="Search", font=('arial', 15))
+    label_search = Label(LeftViewForm, text="Search (Enter Part name)", font=('arial', 15))
     label_search.pack(side=TOP, anchor=W)
 
     search = Entry(LeftViewForm, textvariable=SEARCH, font=('arial', 15), width=10)
     search.pack(side=TOP, padx=10, fill=X)
+
     button_search = Button(LeftViewForm, text="Search", command=Search)
     button_search.pack(side=TOP, padx=10, pady=10, fill=X)
     button_reset = Button(LeftViewForm, text="Reset", command=Reset)
     button_reset.pack(side=TOP, padx=10, pady=10, fill=X)
-
     button_delete = Button(LeftViewForm, text="Delete", command=Delete)
     button_delete.pack(side=TOP, padx=10, pady=10, fill=X)
+
+    label_Edit = Label(LeftViewForm, text="Edit (Enter Part id)", font=('arial', 15))
+    label_Edit.pack(side=TOP, anchor=W)
+
+    edit = Entry(LeftViewForm, textvariable=EDIT, font=('arial', 15), width=10)
+    edit.pack(side=TOP, padx=10, fill=X)
+
+    button_edit = Button(LeftViewForm, text="Edit", command=ShowEdit)
+    button_edit.pack(side=TOP, padx=10, pady=10, fill=X)
 
     scrollbar_x = Scrollbar(MidViewForm, orient=HORIZONTAL)
     scrollbar_y = Scrollbar(MidViewForm, orient=VERTICAL)
@@ -121,7 +131,7 @@ def ViewForm():
 
 
     tree.column('#0', stretch=NO, minwidth=0, width=0)
-    tree.column('#1', stretch=NO, minwidth=0, width=0)
+    tree.column('#1', stretch=NO, minwidth=0, width=50)
     tree.column('#2', stretch=NO, minwidth=0, width=180)
     tree.column('#3', stretch=NO, minwidth=0, width=120)
     tree.column('#4', stretch=NO, minwidth=0, width=120)
@@ -131,6 +141,87 @@ def ViewForm():
     tree.pack()
     DisplayData()
 
+
+def ShowEdit():
+    global editform
+    editform = Toplevel()
+    editform.title("Edit data")
+    editform.geometry("800x600")
+    EditForm()
+
+def EditForm():
+    global partname
+    global partnmanufacturer
+    global partmodel
+    global partprice
+    global partqty
+    TopEdit = Frame(editform, width=600, height=100, bd=1, relief=SOLID)
+    TopEdit.pack(side=TOP, pady=20)
+    label_text = Label(TopEdit, text="Edit part data", font=('arial', 18), width=600)
+    label_text.pack(fill=X)
+    MidEdit = Frame(editform, width=600)
+    MidEdit.pack(side=TOP, pady=50)
+    label_partname = Label(MidEdit, text="Part Name:", font=('arial', 25), bd=10)
+    label_partname.grid(row=0, sticky=W)
+
+    label_partmanufacturer = Label(MidEdit, text="Part Manufacturer:", font=('arial', 25), bd=10)
+    label_partmanufacturer.grid(row=1, sticky=W)
+
+    label_partmodel = Label(MidEdit, text="Part Model:", font=('arial', 25), bd=10)
+    label_partmodel.grid(row=2, sticky=W)
+
+    label_partprice = Label(MidEdit, text="Part Price:", font=('arial', 25), bd=10)
+    label_partprice.grid(row=3, sticky=W)
+
+    label_partqty = Label(MidEdit, text="Part Quantity:", font=('arial', 25), bd=10)
+    label_partqty.grid(row=4, sticky=W)
+
+    partname = Entry(MidEdit, font=('arial', 25), width=15)
+    partname.grid(row=0, column=1)
+
+    partnmanufacturer = Entry(MidEdit,font=('arial', 25), width=15)
+    partnmanufacturer.grid(row=1, column=1)
+
+    partmodel = Entry(MidEdit, font=('arial', 25), width=15)
+    partmodel.grid(row=2, column=1)
+
+    partprice = Entry(MidEdit,  font=('arial', 25), width=15)
+    partprice.grid(row=3, column=1)
+
+    partqty = Entry(MidEdit, font=('arial', 25), width=15)
+    partqty.grid(row=4, column=1)
+
+    button_save = Button(MidEdit, text="Save edit", font=('arial', 18), width=30, bg="#009ACD", command=Edit)
+    button_save.grid(row=6, columnspan=2, pady=20)
+    DisplayEditData()
+
+def DisplayEditData():
+    Database()
+    record_id = edit.get()
+    #cursor.execute("SELECT * FROM 'invendb-test2' WHERE oid = "  + record_id)
+    cursor.execute("SELECT * FROM 'invendb-test2' WHERE Parts_id = " + record_id)
+
+    records = cursor.fetchall()
+    for data in records:
+        partname.delete(0,END)
+        partnmanufacturer.delete(0,END)
+        partmodel.delete(0,END)
+        partprice.delete(0,END)
+        partqty.delete(0,END)
+
+
+    for data in records:
+        partname.insert(0,data[1])
+        partnmanufacturer.insert(0,data[2])
+        partmodel.insert(0,data[3])
+        partprice.insert(0,data[4])
+        partqty.insert(0,data[5])
+
+    cursor.close()
+    conn.close()
+
+def Edit():
+    pass;
 
 def DisplayData():
     Database()
@@ -200,8 +291,8 @@ Parts_Model = StringVar()
 Parts_Price = IntVar()
 Parts_Qty = IntVar()
 SEARCH = StringVar()
-USERNAME = StringVar()
-PASSWORD = StringVar()
+EDIT = StringVar()
+
 
 ### Label ###
 label_head = Label(root, text="Consumable Parts Inventory System", font=('arial', 25), bg = "#ff9a8c")
