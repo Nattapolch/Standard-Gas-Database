@@ -18,47 +18,49 @@ def ShowAddNew():
     addnewform = Toplevel()
     addnewform.title("Add New Part")
     addnewform.geometry("800x600")
+    addnewform.config(bg="#B9D4DB")
     AddNewForm()
 
 
 def AddNewForm():
     TopAddNew = Frame(addnewform, width=600, height=100, bd=1, relief=SOLID)
     TopAddNew.pack(side=TOP, pady=20)
-    label_text = Label(TopAddNew, text="Add New Part", font=('arial', 18), width=600)
+    label_text = Label(TopAddNew, text="Add New Part", font=('arial', 18), width=600, bg="#478BA2", fg="#F2A490")
     label_text.pack(fill=X)
-    MidAddNew = Frame(addnewform, width=600)
+    MidAddNew = Frame(addnewform, width=600, bg="#B9D4DB")
     MidAddNew.pack(side=TOP, pady=50)
-    label_partname = Label(MidAddNew, text="Part Name:", font=('arial', 25), bd=10)
+    label_partname = Label(MidAddNew, text="Part Name:", font=('arial', 25), bd=10, bg="#B9D4DB")
     label_partname.grid(row=0, sticky=W)
 
-    label_partmanufacturer = Label(MidAddNew, text="Part Manufacturer:", font=('arial', 25), bd=10)
+    label_partmanufacturer = Label(MidAddNew, text="Part Manufacturer:", font=('arial', 25), bd=10, bg="#B9D4DB")
     label_partmanufacturer.grid(row=1, sticky=W)
 
-    label_partmodel = Label(MidAddNew, text="Part Model:", font=('arial', 25), bd=10)
+    label_partmodel = Label(MidAddNew, text="Part Model:", font=('arial', 25), bd=10, bg="#B9D4DB")
     label_partmodel.grid(row=2, sticky=W)
 
-    label_partprice = Label(MidAddNew, text="Part Price:", font=('arial', 25), bd=10)
+    label_partprice = Label(MidAddNew, text="Part Price:", font=('arial', 25), bd=10, bg="#B9D4DB")
     label_partprice.grid(row=3, sticky=W)
 
-    label_partqty = Label(MidAddNew, text="Part Quantity:", font=('arial', 25), bd=10)
+    label_partqty = Label(MidAddNew, text="Part Quantity:", font=('arial', 25), bd=10, bg="#B9D4DB")
     label_partqty.grid(row=4, sticky=W)
 
-    partname = Entry(MidAddNew, textvariable=Parts_Name, font=('arial', 25), width=15)
+    partname = Entry(MidAddNew, textvariable=Parts_Name, font=('arial', 25), width=15, bg="#D4CFC9")
     partname.grid(row=0, column=1)
 
-    partnmanufacturer = Entry(MidAddNew, textvariable=Parts_Manufacturer, font=('arial', 25), width=15)
+    partnmanufacturer = Entry(MidAddNew, textvariable=Parts_Manufacturer, font=('arial', 25), width=15, bg="#D4CFC9")
     partnmanufacturer.grid(row=1, column=1)
 
-    partmodel = Entry(MidAddNew, textvariable=Parts_Model, font=('arial', 25), width=15)
+    partmodel = Entry(MidAddNew, textvariable=Parts_Model, font=('arial', 25), width=15, bg="#D4CFC9")
     partmodel.grid(row=2, column=1)
 
-    partprice = Entry(MidAddNew, textvariable=Parts_Price, font=('arial', 25), width=15)
+    partprice = Entry(MidAddNew, textvariable=Parts_Price, font=('arial', 25), width=15, bg="#D4CFC9")
     partprice.grid(row=3, column=1)
 
-    partqty = Entry(MidAddNew, textvariable=Parts_Qty, font=('arial', 25), width=15)
+    partqty = Entry(MidAddNew, textvariable=Parts_Qty, font=('arial', 25), width=15, bg="#D4CFC9")
     partqty.grid(row=4, column=1)
 
-    button_save = Button(MidAddNew, text="Save", font=('arial', 18), width=30, bg="#009ACD", command=AddNew)
+    button_save = Button(MidAddNew, text="Save", font=('arial', 18), width=30, command=AddNew, bg="#c3aed6",
+                         activeforeground="#f0a500", activebackground="#290001")
     button_save.grid(row=6, columnspan=2, pady=20)
 
 
@@ -163,19 +165,21 @@ def ShowAbout():
     aboutform = Toplevel()
     aboutform.title("About")
     aboutform.geometry("400x300")
+    aboutform.config(bg="#8db596")
     AboutForm()
 
 
 def AboutForm():
     TopAbout = Frame(aboutform, width=300, height=100, bd=1, relief=SOLID)
     TopAbout.pack(side=TOP, pady=20)
-    label_text = Label(TopAbout, text="About this program 😎", font=('arial', 18), width=300)
+    label_text = Label(TopAbout, text="About this program 😎", font=('arial', 18), width=300, bg="#b8de6f")
     label_text.pack()
-    MidAbout = Frame(aboutform, width=300)
+    MidAbout = Frame(aboutform, width=300, bg="#8db596")
     MidAbout.pack(side=TOP, pady=30)
-    label_version = Label(MidAbout, text="Version : 1.00", font=('arial', 10), bd=10)
+    label_version = Label(MidAbout, text="Version : 1.00", font=('arial', 10), bd=10, bg="#8db596")
     label_version.grid(row=0, sticky=W)
-    label_devname = Label(MidAbout, text="Developed by : Nattapol Charuthamrrong", font=('arial', 10), bd=10)
+    label_devname = Label(MidAbout, text="Developed by : Nattapol Charuthamrrong", font=('arial', 10), bd=10,
+                          bg="#8db596")
     label_devname.grid(row=1, sticky=W)
 
 
@@ -350,16 +354,20 @@ label_head = Label(root, text="Consumable Parts Inventory System", font=('arial'
 label_head.pack()
 
 ### Button in GUI ###
-button_Additem = Button(root, command=ShowAddNew, text="Add new item", height="3", width="13")
+button_Additem = Button(root, command=ShowAddNew, text="Add new item", height="3", width="13", bg="#51adcf",
+                        activeforeground="#f0a500", activebackground="#290001")
 button_Additem.place(x=100, y=150)
 
-button_viewlist = Button(root, command=ShowView, text="View Parts List", height="3", width="13")
+button_viewlist = Button(root, command=ShowView, text="View Parts List", height="3", width="13", bg="#de4463",
+                         activeforeground="#f0a500", activebackground="#290001")
 button_viewlist.place(x=300, y=150)
 
-button_exit = Button(root, command=Exit, text="Exit", height="3", width="13")
+button_exit = Button(root, command=Exit, text="Exit", height="3", width="13", bg="#8db596",
+                     activeforeground="#f0a500", activebackground="#290001")
 button_exit.place(x=500, y=150)
 
-button_about = Button(root, command=ShowAbout, text="About", height="3", width="13")
+button_about = Button(root, command=ShowAbout, text="About", height="3", width="13", bg="#b8de6f",
+                      activeforeground="#f0a500", activebackground="#290001")
 button_about.place(x=700, y=150)
 
 Database()
