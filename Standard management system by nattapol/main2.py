@@ -352,6 +352,8 @@ EDIT = StringVar()
 ### Label ###
 label_head = Label(root, text="Consumable Parts Inventory System", font=('arial', 25), bg="#ff9a8c")
 label_head.pack()
+label_devname = Label(root, text="Nattapol Charuthamrong", font=('arial', 8), fg="white", bg="#fae0df")
+label_devname.place(x=770, y=280)
 
 ### Button in GUI ###
 button_Additem = Button(root, command=ShowAddNew, text="Add new item", height="3", width="13", bg="#51adcf",
