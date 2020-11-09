@@ -158,6 +158,27 @@ def ShowEdit():
     EditForm()
 
 
+def ShowAbout():
+    global aboutform
+    aboutform = Toplevel()
+    aboutform.title("About")
+    aboutform.geometry("400x300")
+    AboutForm()
+
+
+def AboutForm():
+    TopAbout = Frame(aboutform, width=300, height=100, bd=1, relief=SOLID)
+    TopAbout.pack(side=TOP, pady=20)
+    label_text = Label(TopAbout, text="About this program 😎", font=('arial', 18), width=300)
+    label_text.pack()
+    MidAbout = Frame(aboutform, width=300)
+    MidAbout.pack(side=TOP, pady=30)
+    label_version = Label(MidAbout, text="Version : 1.00", font=('arial', 10), bd=10)
+    label_version.grid(row=0, sticky=W)
+    label_devname = Label(MidAbout, text="Developed by : Nattapol Charuthamrrong", font=('arial', 10), bd=10)
+    label_devname.grid(row=1, sticky=W)
+
+
 def EditForm():
     global partname
     global partnmanufacturer
@@ -330,13 +351,16 @@ label_head.pack()
 
 ### Button in GUI ###
 button_Additem = Button(root, command=ShowAddNew, text="Add new item", height="3", width="13")
-button_Additem.place(x=200, y=150)
+button_Additem.place(x=100, y=150)
 
 button_viewlist = Button(root, command=ShowView, text="View Parts List", height="3", width="13")
-button_viewlist.place(x=400, y=150)
+button_viewlist.place(x=300, y=150)
 
 button_exit = Button(root, command=Exit, text="Exit", height="3", width="13")
-button_exit.place(x=600, y=150)
+button_exit.place(x=500, y=150)
+
+button_about = Button(root, command=ShowAbout, text="About", height="3", width="13")
+button_about.place(x=700, y=150)
 
 Database()
 root.mainloop()
