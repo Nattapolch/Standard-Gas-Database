@@ -305,6 +305,7 @@ def Reset():
     tree.delete(*tree.get_children())
     DisplayData()
     SEARCH.set("")
+    EDIT.set("")
 
 
 def Delete():
